@@ -8,29 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mkomafamily.property.dto.LoginRequest;
 import com.mkomafamily.property.dto.LoginResponse;
-import com.mkomafamily.property.model.Owner;
-import com.mkomafamily.property.service.OwnerService;
 
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private OwnerService ownerService;
+    private AuthService authService;
 
-    public AuthController(OwnerService ownerService) {
-        this.ownerService = ownerService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        try {
-            Owner owner = ownerService.login(request.getEmail(), request.getPassword());
-
-            return ResponseEntity.ok(new LoginResponse("Login successful", owner.getId()));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(401).body(e.getMessage());
-        }
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
     
 }

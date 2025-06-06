@@ -43,7 +43,7 @@ public class OwnerService {
 
         String encodedPassword = passwordEncoder.encode(owner.getPassword());
         owner.setPassword(encodedPassword);
-        owner.setRole("OWNER");
+        // owner.setRole("OWNER");
         return ownerRepository.save(owner);
     }
 

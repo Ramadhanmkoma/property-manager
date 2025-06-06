@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mkomafamily.property.dto.TenantRegistrationReq;
+import com.mkomafamily.property.enums.Role;
 import com.mkomafamily.property.model.Tenant;
 import com.mkomafamily.property.service.TenantService;
 
@@ -22,9 +24,11 @@ import com.mkomafamily.property.service.TenantService;
 public class TenantController {
 
     private final TenantService tService;
+    private final PasswordEncoder passwordEncoder;
 
-    public TenantController(TenantService tService) {
+    public TenantController(TenantService tService, PasswordEncoder passwordEncoder) {
         this.tService = tService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Get All Tenants
@@ -43,14 +47,30 @@ public class TenantController {
     }
 
     // Search Tenant using query params
-    @GetMapping("/search")
-    public ResponseEntity<List<Tenant>> searchTenantByName(@RequestParam String name) {
-        return ResponseEntity.ok(this.tService.getTenantsByName(name));
-    }
+    // @GetMapping("/search")
+    // public ResponseEntity<List<Tenant>> searchTenantByName(@RequestParam String name) {
+    //     return ResponseEntity.ok(this.tService.getTenantsByName(name));
+    // }
 
     // Add New Tenant
-    @PostMapping("/save")
-    public ResponseEntity<Tenant> saveTenant(@RequestBody Tenant tenant) {
+    @PostMapping("/register")
+    public ResponseEntity<Tenant> saveTenant(@RequestBody TenantRegistrationReq request) {
+
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        Tenant tenant = new Tenant();
+        tenant.setEmail(request.getEmail());
+        tenant.setFullName(request.getFullName());
+        tenant.setDob(request.getDob());
+        tenant.setRole(Role.TENANT);
+        tenant.setGender(request.getGender());
+        tenant.setOccupation(request.getOccupation());
+        tenant.setPhone(request.getPhone());
+        tenant.setReligion(request.getReligion());
+        tenant.setAdditionalNotes(request.getAdditionalNotes());
+        tenant.setPassword(encodedPassword);
+        
+
         Tenant newTenant = tService.saveTenant(tenant);
         return new ResponseEntity<>(newTenant, HttpStatus.CREATED);
     }
@@ -61,7 +81,7 @@ public class TenantController {
         Tenant tenantToUpdate = tService.getTenantById(id).orElseThrow(
                 () -> new RuntimeException("Tenant with id: " + id + " was not found"));
 
-        tenantToUpdate.setName(tenant.getName());
+        // tenantToUpdate.setName(tenant.getName());
         tenantToUpdate.setGender(tenant.getGender());
         tenantToUpdate.setDob(tenant.getDob());
         tenantToUpdate.setEmail(tenant.getEmail());

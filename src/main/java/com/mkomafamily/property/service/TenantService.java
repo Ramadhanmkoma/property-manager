@@ -27,14 +27,14 @@ public class TenantService {
     }
 
     // Get Tenants by phone numbers
-    public List<Tenant> getTenantsByPhone(String phone) {
-        return this.tenantRepository.findTenantsByPhone(phone);
-    }
+    // public List<Tenant> getTenantsByPhone(String phone) {
+    //     return this.tenantRepository.findTenantsByPhone(phone);
+    // }
 
     // Get tenants by name
-    public List<Tenant> getTenantsByName(String name) {
-        return this.tenantRepository.findTenantsByNameContainingIgnoreCase(name);
-    }
+    // public List<Tenant> getTenantsByName(String name) {
+    //     return this.tenantRepository.findTenantsByNameContainingIgnoreCase(name);
+    // }
 
     // Save New Tenant
     public Tenant saveTenant(Tenant tenant) {
