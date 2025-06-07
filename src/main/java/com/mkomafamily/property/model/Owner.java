@@ -1,13 +1,9 @@
 package com.mkomafamily.property.model;
 
-import java.util.List;
+import com.mkomafamily.property.enums.Role;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,7 +18,52 @@ public class Owner extends User {
 
     private Boolean verified;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Property> properties;
+    public Owner(String fullName, String email, String phone, String password, Role role, String businessName,
+            String ownershipType, Boolean verified) {
+        super(fullName, email, phone, password, role);
+        this.businessName = businessName;
+        this.ownershipType = ownershipType;
+        this.verified = verified;
+    }
+
+    // public Owner(String businessName, String ownershipType, Boolean verified) {
+    //     this.businessName = businessName;
+    //     this.ownershipType = ownershipType;
+    //     this.verified = verified;
+    // }
+
+    public Owner() {
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public String getOwnershipType() {
+        return ownershipType;
+    }
+
+    public void setOwnershipType(String ownershipType) {
+        this.ownershipType = ownershipType;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    
+
+    // @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval =
+    // true)
+    // @JsonManagedReference
+    // private List<Property> properties;
+
 }

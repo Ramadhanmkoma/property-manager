@@ -18,7 +18,7 @@ import com.mkomafamily.property.service.ContractService;
 
 
 @RestController
-@RequestMapping("/api/contracts")
+@RequestMapping("/api/v1/contracts")
 public class ContractController {
 
     private final ContractService contractService;

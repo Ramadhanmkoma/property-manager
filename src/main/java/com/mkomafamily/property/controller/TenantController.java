@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mkomafamily.property.dto.TenantRegistrationReq;
@@ -20,7 +21,7 @@ import com.mkomafamily.property.model.Tenant;
 import com.mkomafamily.property.service.TenantService;
 
 @RestController // Tells Spring boot that this will be our REST Resource
-@RequestMapping("/api/tenants")
+@RequestMapping("/api/v1/tenants")
 public class TenantController {
 
     private final TenantService tService;
@@ -47,10 +48,10 @@ public class TenantController {
     }
 
     // Search Tenant using query params
-    // @GetMapping("/search")
-    // public ResponseEntity<List<Tenant>> searchTenantByName(@RequestParam String name) {
-    //     return ResponseEntity.ok(this.tService.getTenantsByName(name));
-    // }
+    @GetMapping("/search")
+    public ResponseEntity<List<Tenant>> searchTenantByName(@RequestParam String name) {
+        return ResponseEntity.ok(this.tService.getTenantsByName(name));
+    }
 
     // Add New Tenant
     @PostMapping("/register")
@@ -69,7 +70,6 @@ public class TenantController {
         tenant.setReligion(request.getReligion());
         tenant.setAdditionalNotes(request.getAdditionalNotes());
         tenant.setPassword(encodedPassword);
-        
 
         Tenant newTenant = tService.saveTenant(tenant);
         return new ResponseEntity<>(newTenant, HttpStatus.CREATED);
@@ -94,6 +94,17 @@ public class TenantController {
 
         return new ResponseEntity<>(updatedTenant, HttpStatus.OK);
     }
+
+    // @PatchMapping("/role/{id}")
+    // public ResponseEntity<Tenant> updateRole(@PathVariable Long id, @RequestBody Role role) {
+    //     Tenant tenant = tService.getTenantById(id).orElseThrow(
+    //         () -> new RuntimeException("Tenant not found")
+    //     );
+
+    //     tenant.setRole(role);
+
+    //     return ResponseEntity.ok(tService.saveTenant(tenant));
+    // }
 
     // Delete Tenant
     @DeleteMapping("/delete/{id}")

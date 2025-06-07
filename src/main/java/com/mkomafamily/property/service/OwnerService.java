@@ -37,13 +37,6 @@ public class OwnerService {
 
     // Add new or update Owner -> Intelligent Enough to detect
     public Owner saveOwner(Owner owner) {
-        if (owner.getPassword() == null || owner.getPassword().isBlank()) {
-            throw new IllegalArgumentException("Password cannot be null or blank");
-        }
-
-        String encodedPassword = passwordEncoder.encode(owner.getPassword());
-        owner.setPassword(encodedPassword);
-        // owner.setRole("OWNER");
         return ownerRepository.save(owner);
     }
 

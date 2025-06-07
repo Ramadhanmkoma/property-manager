@@ -23,7 +23,7 @@ import com.mkomafamily.property.service.PropertyService;
 // import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@RequestMapping("/api/properties")
+@RequestMapping("/api/v1/properties")
 public class PropertyController {
 
     private final PropertyService pService;

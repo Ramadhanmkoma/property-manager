@@ -11,7 +11,7 @@ import com.mkomafamily.property.dto.LoginResponse;
 
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private AuthService authService;

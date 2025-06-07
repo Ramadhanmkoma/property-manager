@@ -32,9 +32,9 @@ public class TenantService {
     // }
 
     // Get tenants by name
-    // public List<Tenant> getTenantsByName(String name) {
-    //     return this.tenantRepository.findTenantsByNameContainingIgnoreCase(name);
-    // }
+    public List<Tenant> getTenantsByName(String name) {
+        return this.tenantRepository.findTenantsByFullNameContainingIgnoreCase(name);
+    }
 
     // Save New Tenant
     public Tenant saveTenant(Tenant tenant) {
