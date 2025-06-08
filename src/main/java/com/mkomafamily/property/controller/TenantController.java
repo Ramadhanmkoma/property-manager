@@ -43,7 +43,7 @@ public class TenantController {
 
         Page<Tenant> tenPage = this.tService.getAllTenants(page, size);
         PaginatedResponse<Tenant> reponse = new PaginatedResponse<>(
-                tenPage.getTotalElements(), tenPage.getContent());
+                tenPage.getTotalElements(), tenPage.getNumber(), tenPage.getTotalPages(), tenPage.getContent());
 
         return ResponseEntity.ok(reponse);
     }
