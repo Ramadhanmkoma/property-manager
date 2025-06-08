@@ -1,6 +1,7 @@
 package com.mkomafamily.property.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,5 +108,11 @@ public class PropertyController {
         pService.deleteExistingProp(propertyToDelete);
 
         return ResponseEntity.ok("Property Deleted!");
+    }
+
+    @GetMapping("/count")
+    public Map<String, Long> getPropertyCount() {
+        long count = pService.getCount();
+        return Map.of("totalProperties", count);
     }
 }

@@ -41,4 +41,8 @@ public class PropertyService {
     public void deleteExistingProp(Property property) {
         this.pRepository.delete(property);
     }
+
+    public long getCount() {
+        return pRepository.count();
+    }
 }

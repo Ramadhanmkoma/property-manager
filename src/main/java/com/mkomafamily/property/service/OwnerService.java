@@ -61,4 +61,8 @@ public class OwnerService {
 
         return owner;
     }
+
+    public long getOwnerCount() {
+        return ownerRepository.count();
+    }
 }

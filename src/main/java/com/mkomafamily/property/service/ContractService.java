@@ -42,4 +42,8 @@ public class ContractService {
     public void deleteContract(Contract contract) {
         cRepository.delete(contract);
     }
+
+    public long getTotalContractCount() {
+        return cRepository.count();
+    }
 }

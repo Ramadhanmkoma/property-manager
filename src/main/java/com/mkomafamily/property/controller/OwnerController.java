@@ -1,6 +1,7 @@
 package com.mkomafamily.property.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,5 +119,12 @@ public class OwnerController {
         ownerService.deleteAllOwners();
 
         return ResponseEntity.ok("All Owners were deleted Successfully");
+    }
+
+    // count api
+    @GetMapping("/count")
+    public Map<String, Long> getOwnerCount() {
+        long count = ownerService.getOwnerCount();
+        return Map.of("totalOwners", count);
     }
 }

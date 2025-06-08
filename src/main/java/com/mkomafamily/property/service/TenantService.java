@@ -3,6 +3,8 @@ package com.mkomafamily.property.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.mkomafamily.property.model.Tenant;
@@ -17,8 +19,8 @@ public class TenantService {
     }
 
     // Get all tenants
-    public List<Tenant> getAllTenants() {
-        return tenantRepository.findAll();
+    public Page<Tenant> getAllTenants(int page, int size) {
+        return tenantRepository.findAll(PageRequest.of(page, size));
     }
 
     // Get By Id
@@ -44,5 +46,9 @@ public class TenantService {
     // Delete Existing Tenant
     public void deleteTenant(Tenant tenant) {
         this.tenantRepository.delete(tenant);
+    }
+
+    public long getCount() {
+        return tenantRepository.count();
     }
 }

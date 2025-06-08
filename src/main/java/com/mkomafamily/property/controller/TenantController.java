@@ -1,7 +1,9 @@
 package com.mkomafamily.property.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mkomafamily.property.dto.PaginatedResponse;
 import com.mkomafamily.property.dto.TenantRegistrationReq;
 import com.mkomafamily.property.enums.Role;
 import com.mkomafamily.property.model.Tenant;
@@ -34,8 +37,15 @@ public class TenantController {
 
     // Get All Tenants
     @GetMapping
-    public ResponseEntity<List<Tenant>> getTenants() {
-        return ResponseEntity.ok(this.tService.getAllTenants());
+    public ResponseEntity<PaginatedResponse<Tenant>> getTenants(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<Tenant> tenPage = this.tService.getAllTenants(page, size);
+        PaginatedResponse<Tenant> reponse = new PaginatedResponse<>(
+                tenPage.getTotalElements(), tenPage.getContent());
+
+        return ResponseEntity.ok(reponse);
     }
 
     // Get Tenant By Id -> Returns only one
@@ -96,26 +106,32 @@ public class TenantController {
     }
 
     // @PatchMapping("/role/{id}")
-    // public ResponseEntity<Tenant> updateRole(@PathVariable Long id, @RequestBody Role role) {
-    //     Tenant tenant = tService.getTenantById(id).orElseThrow(
-    //         () -> new RuntimeException("Tenant not found")
-    //     );
+    // public ResponseEntity<Tenant> updateRole(@PathVariable Long id, @RequestBody
+    // Role role) {
+    // Tenant tenant = tService.getTenantById(id).orElseThrow(
+    // () -> new RuntimeException("Tenant not found")
+    // );
 
-    //     tenant.setRole(role);
+    // tenant.setRole(role);
 
-    //     return ResponseEntity.ok(tService.saveTenant(tenant));
+    // return ResponseEntity.ok(tService.saveTenant(tenant));
     // }
 
     // Delete Tenant
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTenant(@PathVariable Long id, Tenant tenant) {
         tenant = this.tService.getTenantById(id).orElseThrow(
-            () -> new RuntimeException("Tenant Does not exist")
-        );
+                () -> new RuntimeException("Tenant Does not exist"));
 
         this.tService.deleteTenant(tenant);
 
         return ResponseEntity.ok("Tenant Deleted Successfully");
+    }
+
+    @GetMapping("/count")
+    public Map<String, Long> getTenantCount() {
+        long count = tService.getCount();
+        return Map.of("totalTenants", count);
     }
 
 }

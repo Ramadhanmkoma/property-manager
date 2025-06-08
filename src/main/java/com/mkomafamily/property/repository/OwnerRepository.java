@@ -10,7 +10,7 @@ import com.mkomafamily.property.model.Owner;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
-    
+    long count();
     // search by owner name
     List<Owner> findOwnersByFullNameContainingIgnoreCase(String fullName);
 

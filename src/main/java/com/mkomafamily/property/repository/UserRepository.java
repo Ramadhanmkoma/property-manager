@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.mkomafamily.property.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    long count();
     Optional<User> findByEmail(String email);
 }

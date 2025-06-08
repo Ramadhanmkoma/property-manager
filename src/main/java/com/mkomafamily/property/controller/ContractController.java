@@ -1,6 +1,7 @@
 package com.mkomafamily.property.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,5 +86,11 @@ public class ContractController {
 
         contractService.deleteContract(contract);
         return ResponseEntity.ok("Contract was deleted Successfully");
+    }
+
+    @GetMapping("/count")
+    public Map<String, Long> getContractCount() {
+        long count = contractService.getTotalContractCount();
+        return Map.of("totalContracts", count);
     }
 }

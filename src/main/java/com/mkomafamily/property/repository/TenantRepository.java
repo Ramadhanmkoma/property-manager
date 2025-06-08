@@ -10,6 +10,7 @@ import com.mkomafamily.property.model.Tenant;
 @Repository
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
+    long count();
     // find Tenant By Phone Number
     // List<Tenant> findTenantsByPhone(String phone);
 
